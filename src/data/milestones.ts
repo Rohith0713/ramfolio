@@ -9,14 +9,13 @@ export const milestones: Milestone[] = [
     icon: '📱',
     tech: ['Reels', 'Shorts', 'TikTok'],
     videos: [
-      { title: 'Charminar', author: 'Rohith', src: '/videos/short_form_content/charminar.mp4' },
-      { title: 'Earth', author: 'Rohith', src: '/videos/short_form_content/earth.mp4' },
-      { title: 'Motor Bike', author: 'Rohith', src: '/videos/short_form_content/motor bike.mp4' },
-      { title: 'My Reel 2', author: 'Rohith', src: '/videos/short_form_content/my reel2.mp4' },
-      { title: 'Petrol Pump', author: 'Rohith', src: '/videos/short_form_content/petrol pump.mp4' },
-      { title: 'Sky Reel', author: 'Rohith', src: '/videos/short_form_content/sky reel.mp4' },
-      { title: 'Cinematic Reel 1', author: 'Rohith', src: '/videos/short_form_content/VID_20250703141003.mp4' },
-      { title: 'Cinematic Reel 2', author: 'Rohith', src: '/videos/short_form_content/VID_20250703141116.mp4' },
+      { title: 'Charminar', author: 'Rohith', src: 'https://www.youtube.com/embed/ILU-zrD3mkM' },
+      { title: 'Earth', author: 'Rohith', src: 'https://www.youtube.com/embed/9Ka0SHnGFvc' },
+      { title: 'Motor Bike', author: 'Rohith', src: 'https://www.youtube.com/embed/3xxG6FKFRfE' },
+      { title: 'My Reel 2', author: 'Rohith', src: 'https://www.youtube.com/embed/iZkXPlAtEls' },
+      { title: 'Petrol Pump', author: 'Rohith', src: 'https://www.youtube.com/embed/jH5MVjnIKBM' },
+      { title: 'Sky Reel', author: 'Rohith', src: 'https://www.youtube.com/embed/OEEPGTCfS6w' },
+      { title: 'Cinematic Reel 1', author: 'Rohith', src: 'https://www.youtube.com/embed/OwCEwVRCgLc' },
     ],
   },
   {
@@ -27,9 +26,10 @@ export const milestones: Milestone[] = [
     icon: '🎬',
     tech: ['YouTube', 'Documentaries', 'Vlogs'],
     videos: [
-      { title: 'Long Form Film 1', author: 'Rohith', src: '/videos/Long _form_content/1.mp4', orientation: 'landscape' },
-      { title: 'Long Form Film 2', author: 'Rohith', src: '/videos/Long _form_content/2.mov', orientation: 'landscape' },
-      { title: 'Long Form Film 3', author: 'Rohith', src: '/videos/Long _form_content/3.mp4', orientation: 'landscape' },
+      { title: 'Long Form Film 1', author: 'Rohith', src: 'https://www.youtube.com/embed/hjxbIVF2ypI', orientation: 'landscape' },
+      { title: 'Long Form Film 2', author: 'Rohith', src: 'https://www.youtube.com/embed/0vwVwK3iCsc', orientation: 'landscape' },
+      { title: 'Long Form Film 3', author: 'Rohith', src: 'https://www.youtube.com/embed/7XGwEwGCEFM', orientation: 'landscape' },
+      { title: 'Long Form Film 4', author: 'Rohith', src: 'https://www.youtube.com/embed/uX6vtL_Ul1Q', orientation: 'landscape' },
     ],
   },
   {
@@ -40,7 +40,7 @@ export const milestones: Milestone[] = [
     icon: '✨',
     tech: ['After Effects', 'Animation', 'VFX'],
     videos: [
-      { title: 'Motion Graphic Reel', author: 'Rohith', src: '/videos/Some_graphics_content/motion graphic reel.mp4' },
+      { title: 'Motion Graphic Reel', author: 'Rohith', src: 'https://www.youtube.com/embed/bTDb5WdzKdE' },
     ],
   },
 ];

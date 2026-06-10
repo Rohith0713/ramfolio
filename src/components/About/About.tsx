@@ -3,22 +3,16 @@ import { gsap, ScrollTrigger } from '../../hooks/useGSAP';
 import SkillCard from './SkillCard';
 import { skills } from '../../data/skills';
 
+
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
-  const videoElRef = useRef<HTMLVideoElement>(null);
 
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-
-  useEffect(() => {
-    if (videoElRef.current) {
-      videoElRef.current.muted = isMuted;
-    }
-  }, [isMuted]);
 
   // GSAP scroll-triggered animations
   useEffect(() => {
@@ -81,30 +75,10 @@ export default function About() {
         trigger: sectionRef.current,
         start: 'top bottom',
         end: 'bottom top',
-        onEnter: () => {
-          if (videoElRef.current) {
-            videoElRef.current.play().catch(() => {});
-            setIsVideoPlaying(true);
-          }
-        },
-        onLeave: () => {
-          if (videoElRef.current) {
-            videoElRef.current.pause();
-            setIsVideoPlaying(false);
-          }
-        },
-        onEnterBack: () => {
-          if (videoElRef.current) {
-            videoElRef.current.play().catch(() => {});
-            setIsVideoPlaying(true);
-          }
-        },
-        onLeaveBack: () => {
-          if (videoElRef.current) {
-            videoElRef.current.pause();
-            setIsVideoPlaying(false);
-          }
-        },
+        onEnter: () => setIsVideoPlaying(true),
+        onLeave: () => setIsVideoPlaying(false),
+        onEnterBack: () => setIsVideoPlaying(true),
+        onLeaveBack: () => setIsVideoPlaying(false),
       });
     }, sectionRef);
 
@@ -113,16 +87,9 @@ export default function About() {
 
   // Video play/pause toggle
   const toggleVideo = useCallback(() => {
-    const vid = videoElRef.current;
-    if (!vid) return;
-    if (vid.paused) {
-      vid.play();
-      setIsVideoPlaying(true);
-    } else {
-      vid.pause();
-      setIsVideoPlaying(false);
-    }
+    setIsVideoPlaying((prev) => !prev);
   }, []);
+
   return (
     <section
       id="about"
@@ -161,66 +128,18 @@ export default function About() {
             <div className="about-video-glow" />
 
             <div className="about-video-inner">
-              <video
-                ref={videoElRef}
-                className="about-video"
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                disablePictureInPicture
-                controlsList="nodownload noplaybackrate"
-                src="/videos/1000080727.mp4"
-              >
-                Your browser does not support the video tag.
-              </video>
-
-              {/* Edge fade overlay */}
-              <div className="about-video-overlay" />
-
-              {/* Mute/Unmute control */}
-              <button
-                className="about-video-control"
-                style={{ right: '60px' }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsMuted(!isMuted);
+              <iframe
+                src="https://www.youtube.com/embed/bhP-_oKE3P0?rel=0&modestbranding=1"
+                title="About Me Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  border: 'none',
+                  display: 'block',
                 }}
-                aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-              >
-                {isMuted ? (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <line x1="23" y1="9" x2="17" y2="15"></line>
-                    <line x1="17" y1="9" x2="23" y2="15"></line>
-                  </svg>
-                ) : (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M11 5L6 9H2v6h4l5 4V5z" />
-                    <path d="M19.07 4.93a10 10 0 010 14.14" />
-                    <path d="M15.54 8.46a5 5 0 010 7.07" />
-                  </svg>
-                )}
-              </button>
-
-              {/* Play/Pause control */}
-              <button
-                id="about-video-toggle"
-                className="about-video-control"
-                onClick={toggleVideo}
-                aria-label={isVideoPlaying ? 'Pause video' : 'Play video'}
-              >
-                {isVideoPlaying ? (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <rect x="6" y="4" width="4" height="16" rx="1" />
-                    <rect x="14" y="4" width="4" height="16" rx="1" />
-                  </svg>
-                ) : (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="6,4 20,12 6,20" />
-                  </svg>
-                )}
-              </button>
+              />
             </div>
           </div>
         </div>

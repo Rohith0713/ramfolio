@@ -153,6 +153,9 @@ function VideoCard({ vid, vidIdx, isActive, p, onFullScreen }: { vid: any; vidId
   const [isHovered, setIsHovered] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
 
+  // Detect YouTube embed URL
+  const isYouTube = vid.src?.includes('youtube.com/embed');
+
   // Toggle audio based on isMuted state
   useEffect(() => {
     if (videoRef.current) {
@@ -160,22 +163,15 @@ function VideoCard({ vid, vidIdx, isActive, p, onFullScreen }: { vid: any; vidId
     }
   }, [isMuted]);
 
-  // Playback is now managed centrally by the Coverflow slider loop
-
-  // Adapt dimensions based on video orientation — responsive heights to prevent clipping
   const isLandscape = vid.orientation === 'landscape';
-
-  // Determine video MIME type for .mov support
-  const isMov = vid.src?.toLowerCase().endsWith('.mov');
-  const videoType = isMov ? 'video/quicktime' : 'video/mp4';
 
   return (
     <div
       className={`timeline-item ${isLandscape ? 'timeline-item--landscape' : 'timeline-item--portrait'}`}
       data-ismuted={String(isMuted)}
       style={{
-        width: isLandscape 
-          ? 'min(600px, 80vw, 46vh * 16 / 9)' 
+        width: isLandscape
+          ? 'min(600px, 80vw, 46vh * 16 / 9)'
           : 'min(320px, 75vw, 55vh * 9 / 16)',
         height: 'auto',
         aspectRatio: isLandscape ? '16/9' : '9/16',
@@ -200,96 +196,83 @@ function VideoCard({ vid, vidIdx, isActive, p, onFullScreen }: { vid: any; vidId
         zIndex: isHovered ? 50 : 1,
         cursor: 'pointer',
       }}
-      onClick={() => {
-        if (window.matchMedia("(hover: none)").matches) {
-          if (!isHovered) {
-            setIsHovered(true);
-            setIsMuted(false);
-          } else {
-            if (onFullScreen) {
-              setIsMuted(true);
-              onFullScreen();
-            } else {
-              setIsHovered(false);
-              setIsMuted(true);
-            }
-          }
-        } else {
-          if (onFullScreen) {
-            setIsMuted(true);
-            onFullScreen();
-          }
-        }
-      }}
       onMouseEnter={() => {
         if (!window.matchMedia("(hover: none)").matches) setIsHovered(true);
       }}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {isYouTube ? (
+        <iframe
+          src={`${vid.src}?rel=0&modestbranding=1`}
+          title={vid.title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+        />
+      ) : (
+        <>
+          <video
+            ref={videoRef}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            disablePictureInPicture
+            controlsList="nodownload noplaybackrate"
+            onError={(e) => console.error("Video failed to load:", vid.src, e)}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          >
+            <source src={vid.src} type={vid.src?.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
+            Your browser does not support this video format.
+          </video>
 
-      <video
-        ref={videoRef}
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        disablePictureInPicture
-        controlsList="nodownload noplaybackrate"
-        onError={(e) => console.error("Video failed to load:", vid.src, e)}
-        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-      >
-        <source src={vid.src} type={videoType} />
-        {isMov && <source src={vid.src} type="video/mp4" />}
-        Your browser does not support this video format.
-      </video>
-
-      {/* Mute Button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsMuted(!isMuted);
-        }}
-        style={{
-          position: 'absolute',
-          bottom: '16px',
-          right: '16px',
-          width: '36px',
-          height: '36px',
-          borderRadius: '50%',
-          backgroundColor: 'rgba(0, 0, 0, 0.55)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'rgba(255, 255, 255, 0.9)',
-          zIndex: 60,
-          opacity: isHovered || window.matchMedia("(hover: none)").matches ? 1 : 0,
-          transform: `scale(${isHovered || window.matchMedia("(hover: none)").matches ? 1 : 0.8})`,
-          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          cursor: 'pointer',
-          pointerEvents: isHovered || window.matchMedia("(hover: none)").matches ? 'auto' : 'none',
-        }}
-        aria-label={isMuted ? "Unmute" : "Mute"}
-      >
-        {isMuted ? (
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <line x1="23" y1="9" x2="17" y2="15"></line>
-            <line x1="17" y1="9" x2="23" y2="15"></line>
-          </svg>
-        ) : (
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M11 5L6 9H2v6h4l5 4V5z" />
-            <path d="M19.07 4.93a10 10 0 010 14.14" />
-            <path d="M15.54 8.46a5 5 0 010 7.07" />
-          </svg>
-        )}
-      </button>
-
-
+          {/* Mute Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsMuted(!isMuted);
+            }}
+            style={{
+              position: 'absolute',
+              bottom: '16px',
+              right: '16px',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(0, 0, 0, 0.55)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'rgba(255, 255, 255, 0.9)',
+              zIndex: 60,
+              opacity: isHovered || window.matchMedia("(hover: none)").matches ? 1 : 0,
+              transform: `scale(${isHovered || window.matchMedia("(hover: none)").matches ? 1 : 0.8})`,
+              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+              cursor: 'pointer',
+              pointerEvents: isHovered || window.matchMedia("(hover: none)").matches ? 'auto' : 'none',
+            }}
+            aria-label={isMuted ? "Unmute" : "Mute"}
+          >
+            {isMuted ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                <path d="M19.07 4.93a10 10 0 010 14.14" />
+                <path d="M15.54 8.46a5 5 0 010 7.07" />
+              </svg>
+            )}
+          </button>
+        </>
+      )}
     </div>
   );
 }
