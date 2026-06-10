@@ -148,7 +148,7 @@ function generateJourneySpline(width: number, height: number) {
   return { d, controlPoints };
 }
 
-function VideoCard({ vid, vidIdx, isActive, p, onFullScreen }: { vid: any; vidIdx: number; isActive: boolean; p: number; onFullScreen?: () => void }) {
+function VideoCard({ vid, vidIdx, isActive, p, onFullScreen: _onFullScreen }: { vid: any; vidIdx: number; isActive: boolean; p: number; onFullScreen?: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isMuted, setIsMuted] = useState(true);

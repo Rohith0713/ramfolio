@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
-import { gsap, ScrollTrigger } from '../../hooks/useGSAP';
+import { useRef, useEffect } from 'react';
+import { gsap } from '../../hooks/useGSAP';
 import SkillCard from './SkillCard';
 import { skills } from '../../data/skills';
 
@@ -10,9 +10,6 @@ export default function About() {
   const descRef = useRef<HTMLParagraphElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
-
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
 
   // GSAP scroll-triggered animations
   useEffect(() => {
@@ -70,24 +67,9 @@ export default function About() {
         },
       });
 
-      // Handle video based on section visibility
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top bottom',
-        end: 'bottom top',
-        onEnter: () => setIsVideoPlaying(true),
-        onLeave: () => setIsVideoPlaying(false),
-        onEnterBack: () => setIsVideoPlaying(true),
-        onLeaveBack: () => setIsVideoPlaying(false),
-      });
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
-
-  // Video play/pause toggle
-  const toggleVideo = useCallback(() => {
-    setIsVideoPlaying((prev) => !prev);
   }, []);
 
   return (
