@@ -170,7 +170,6 @@ export default function ContactOverlay({ isOpen, onClose }: ContactOverlayProps)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Prevent submit if loading or spam honeypot is filled
     if (formStatus === 'loading') return;
     if (formData._honey) {
       setFormStatus('success');
@@ -192,21 +191,27 @@ export default function ContactOverlay({ isOpen, onClose }: ContactOverlayProps)
           'Project Type': formData.projectType,
           Budget: formData.budget,
           'Project Details': formData.message,
-          _subject: `New Portfolio Inquiry from ${formData.name}`,
+          _subject: `New Project Inquiry from ${formData.name}`,
         }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (data.success === 'true' || data.success === true) {
+        // Genuine success — email delivered
         setFormStatus('success');
         setFormData({ name: '', email: '', projectType: 'Instagram Reels', budget: '', message: '', _honey: '' });
-        // Automatically close after a short delay so user sees success popup
         setTimeout(() => {
           onClose();
-          // Reset status after closing animation
           setTimeout(() => setFormStatus('idle'), 500);
         }, 3000);
+      } else if (data.message && data.message.toLowerCase().includes('activation')) {
+        // FormSubmit sent activation email to rmaroju0@gmail.com
+        setFormStatus('needs_activation');
+        setTimeout(() => setFormStatus('idle'), 8000);
       } else {
-        console.error('FormSubmit Error Response:', response.statusText);
+        // Some other error
+        console.error('FormSubmit error:', data);
         setFormStatus('error');
         setTimeout(() => setFormStatus('idle'), 4000);
       }

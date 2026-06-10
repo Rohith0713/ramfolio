@@ -345,8 +345,25 @@ function HorizontalScrollGallery({
         } else {
           if (!video.paused) {
             video.pause();
-            video.currentTime = 0; // Reset so it plays from beginning when centered again
+            video.currentTime = 0;
           }
+        }
+      }
+
+      // Control YouTube iframe autoplay: swap src to include/remove autoplay=1&mute=1
+      const iframe = cardEl.querySelector('iframe');
+      if (iframe) {
+        const currentSrc = iframe.src;
+        const baseUrl = currentSrc.split('?')[0];
+        const isCentered = progress < 0.1 && isActive;
+        const hasAutoplay = currentSrc.includes('autoplay=1');
+
+        if (isCentered && !hasAutoplay) {
+          // Add autoplay — muted to satisfy browser policy
+          iframe.src = `${baseUrl}?rel=0&modestbranding=1&autoplay=1&mute=1`;
+        } else if (!isCentered && hasAutoplay) {
+          // Remove autoplay to pause the video
+          iframe.src = `${baseUrl}?rel=0&modestbranding=1`;
         }
       }
     });
@@ -359,15 +376,15 @@ function HorizontalScrollGallery({
 
   // Center the initial index on mount / activation
   useEffect(() => {
-    if (isActive && scrollRef.current && initialScrollIndex > 0) {
+    if (isActive && scrollRef.current) {
       const el = scrollRef.current;
       const timer = setTimeout(() => {
         const childrenArr = el.children;
         if (childrenArr && childrenArr[initialScrollIndex]) {
           const targetChild = childrenArr[initialScrollIndex] as HTMLElement;
           const targetScroll = targetChild.offsetLeft - el.offsetLeft - (el.clientWidth - targetChild.clientWidth) / 2;
-          el.scrollLeft = targetScroll;
-          targetScrollRef.current = targetScroll;
+          el.scrollLeft = Math.max(0, targetScroll);
+          targetScrollRef.current = Math.max(0, targetScroll);
           updateScrollButtons();
         }
       }, 50);
@@ -1245,7 +1262,7 @@ export default function Timeline() {
                         : `calc(4 * min(320px, 75vw, 55vh * 9 / 16) + 3 * 28px + 76px)`
                     }
                     isActive={isActive}
-                    initialScrollIndex={ms.id === 1 ? 1 : 0}
+                    initialScrollIndex={0}
                   >
                     {ms.videos.map((vid, vidIdx) => (
                       <div 
