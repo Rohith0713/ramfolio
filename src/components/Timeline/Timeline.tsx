@@ -350,7 +350,7 @@ function HorizontalScrollGallery({
         }
       }
 
-      // Control YouTube iframe autoplay: swap src to include/remove autoplay=1&mute=1
+      // Control YouTube iframe autoplay: swap src to include/remove autoplay=1&mute=0
       const iframe = cardEl.querySelector('iframe');
       if (iframe) {
         const currentSrc = iframe.src;
@@ -359,8 +359,9 @@ function HorizontalScrollGallery({
         const hasAutoplay = currentSrc.includes('autoplay=1');
 
         if (isCentered && !hasAutoplay) {
-          // Add autoplay — muted to satisfy browser policy
-          iframe.src = `${baseUrl}?rel=0&modestbranding=1&autoplay=1&mute=1`;
+          // Add autoplay unmuted (mute=0) 
+          // Note: Browsers may block this unless the user has interacted with the page first
+          iframe.src = `${baseUrl}?rel=0&modestbranding=1&autoplay=1&mute=0`;
         } else if (!isCentered && hasAutoplay) {
           // Remove autoplay to pause the video
           iframe.src = `${baseUrl}?rel=0&modestbranding=1`;
