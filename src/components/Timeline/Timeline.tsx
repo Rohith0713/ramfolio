@@ -297,13 +297,11 @@ function VideoCard({ vid, vidIdx, isActive, p, onFullScreen }: { vid: any; vidId
 /* ── Smooth Horizontal Scroll Gallery with Arrow Navigation ─────────────── */
 function HorizontalScrollGallery({ 
   children, 
-  videoCount, 
   maxWidth, 
   isActive = false, 
   initialScrollIndex = 0 
 }: { 
   children: React.ReactNode; 
-  videoCount: number; 
   maxWidth?: string; 
   isActive?: boolean; 
   initialScrollIndex?: number;
@@ -1257,7 +1255,7 @@ export default function Timeline() {
                   }}
                 >
                   <HorizontalScrollGallery 
-                    videoCount={ms.videos.length}
+                    
                     maxWidth={
                       ms.videos[0]?.orientation === 'landscape'
                         ? `calc(2 * min(600px, 80vw, 46vh * 16 / 9) + 28px + 76px)`
