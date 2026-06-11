@@ -200,6 +200,9 @@ function VideoCard({ vid, vidIdx, isActive, p, onFullScreen: _onFullScreen }: { 
         if (!window.matchMedia("(hover: none)").matches) setIsHovered(true);
       }}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={(e) => {
+        e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }}
     >
       {isYouTube ? (
         <iframe
@@ -333,9 +336,11 @@ function HorizontalScrollGallery({
       cardEl.style.zIndex = progress < 0.2 ? '10' : '1';
       
       // Control Video Playback: Only play if perfectly centered AND the milestone section is active
+      const isCentered = progress < 0.1 && isActive;
       const video = cardEl.querySelector('video');
       if (video) {
-        if (progress < 0.1 && isActive) {
+        video.style.pointerEvents = isCentered ? 'auto' : 'none';
+        if (isCentered) {
           if (video.paused) {
             if (cardEl.getAttribute('data-ismuted') !== 'false') {
               video.muted = true; // Auto-play safely
@@ -353,9 +358,9 @@ function HorizontalScrollGallery({
       // Control YouTube iframe autoplay: swap src to include/remove autoplay=1&mute=0
       const iframe = cardEl.querySelector('iframe');
       if (iframe) {
+        iframe.style.pointerEvents = isCentered ? 'auto' : 'none';
         const currentSrc = iframe.src;
         const baseUrl = currentSrc.split('?')[0];
-        const isCentered = progress < 0.1 && isActive;
         const hasAutoplay = currentSrc.includes('autoplay=1');
 
         if (isCentered && !hasAutoplay) {
