@@ -1,0 +1,134 @@
+{
+  "total_count": 2,
+  "jobs": [
+    {
+      "id": 80567166154,
+      "run_id": 27278790248,
+      "workflow_name": "Deploy to GitHub Pages",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/Rohith0713/ramfolio/actions/runs/27278790248",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOS2PKd88AAAASwi1kyg",
+      "head_sha": "212c2cf3dab4f1894d4e5661fecc00e81f76197a",
+      "url": "https://api.github.com/repos/Rohith0713/ramfolio/actions/jobs/80567166154",
+      "html_url": "https://github.com/Rohith0713/ramfolio/actions/runs/27278790248/job/80567166154",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-10T13:13:30Z",
+      "started_at": "2026-06-10T13:13:32Z",
+      "completed_at": "2026-06-10T13:13:41Z",
+      "name": "build",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-06-10T13:13:32Z",
+          "completed_at": "2026-06-10T13:13:34Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-06-10T13:13:34Z",
+          "completed_at": "2026-06-10T13:13:35Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-06-10T13:13:35Z",
+          "completed_at": "2026-06-10T13:13:39Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 4,
+          "started_at": "2026-06-10T13:13:39Z",
+          "completed_at": "2026-06-10T13:13:39Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 5,
+          "started_at": "2026-06-10T13:13:39Z",
+          "completed_at": "2026-06-10T13:13:39Z"
+        },
+        {
+          "name": "Run actions/upload-pages-artifact@v3",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 6,
+          "started_at": "2026-06-10T13:13:39Z",
+          "completed_at": "2026-06-10T13:13:39Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11,
+          "started_at": "2026-06-10T13:13:39Z",
+          "completed_at": "2026-06-10T13:13:39Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-06-10T13:13:39Z",
+          "completed_at": "2026-06-10T13:13:39Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-06-10T13:13:39Z",
+          "completed_at": "2026-06-10T13:13:40Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/Rohith0713/ramfolio/check-runs/80567166154",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000061,
+      "runner_name": "GitHub Actions 1000000061",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 80567209125,
+      "run_id": 27278790248,
+      "workflow_name": "Deploy to GitHub Pages",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/Rohith0713/ramfolio/actions/runs/27278790248",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOS2PKd88AAAASwi4MpQ",
+      "head_sha": "212c2cf3dab4f1894d4e5661fecc00e81f76197a",
+      "url": "https://api.github.com/repos/Rohith0713/ramfolio/actions/jobs/80567209125",
+      "html_url": "https://github.com/Rohith0713/ramfolio/actions/runs/27278790248/job/80567209125",
+      "status": "completed",
+      "conclusion": "skipped",
+      "created_at": "2026-06-10T13:13:42Z",
+      "started_at": "2026-06-10T13:13:42Z",
+      "completed_at": "2026-06-10T13:13:41Z",
+      "name": "deploy",
+      "steps": [
+
+      ],
+      "check_run_url": "https://api.github.com/repos/Rohith0713/ramfolio/check-runs/80567209125",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": null,
+      "runner_name": null,
+      "runner_group_id": null,
+      "runner_group_name": null
+    }
+  ]
+}
