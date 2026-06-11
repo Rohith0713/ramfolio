@@ -89,33 +89,33 @@ export default function ContactOverlay({ isOpen, onClose }: ContactOverlayProps)
     if (isOpen) {
       // Save current scroll position
       const scrollY = window.scrollY;
-      
+
       // Lock the body physically in place
       document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY}px`;
       document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
       document.body.style.touchAction = 'none';
-      
+
       // Store the scroll position on the body dataset so we can retrieve it
       document.body.dataset.scrollY = scrollY.toString();
     } else {
       // Retrieve scroll position
       const scrollY = document.body.dataset.scrollY;
-      
+
       // Remove locks
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.width = '';
       document.body.style.overflow = '';
       document.body.style.touchAction = '';
-      
+
       // Restore scroll position
       if (scrollY) {
         window.scrollTo(0, parseInt(scrollY || '0'));
       }
     }
-    
+
     return () => {
       document.body.style.position = '';
       document.body.style.top = '';
@@ -318,10 +318,10 @@ export default function ContactOverlay({ isOpen, onClose }: ContactOverlayProps)
         className="w-full max-w-[1200px] mx-auto mt-0 md:my-auto pt-28 pb-12 px-6 md:px-10 relative z-10"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-24 items-center">
-          
+
           {/* Left Column - Contact Details */}
           <div className="flex flex-col gap-8 text-left">
-            
+
             {/* Tagline */}
             <div className="animate-left flex items-center gap-2">
               <span style={{ color: '#a78bfa', fontWeight: 600, fontSize: '14px', letterSpacing: '0.05em' }}>
@@ -463,7 +463,7 @@ export default function ContactOverlay({ isOpen, onClose }: ContactOverlayProps)
               onMouseLeave={() => setIsHovered(false)}
               style={{
                 backgroundColor: '#0a0a0c',
-                background: isHovered 
+                background: isHovered
                   ? `radial-gradient(450px circle at ${coords.x}px ${coords.y}px, rgba(139, 92, 246, 0.09), transparent 80%), #0a0a0c`
                   : '#0a0a0c',
                 border: isHovered
@@ -473,7 +473,7 @@ export default function ContactOverlay({ isOpen, onClose }: ContactOverlayProps)
                 padding: 'clamp(16px, 4vw, 40px)',
                 width: '100%',
                 transition: 'border-color 0.4s ease, background 0.1s ease, box-shadow 0.4s ease',
-                boxShadow: isHovered 
+                boxShadow: isHovered
                   ? '0 12px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(139, 92, 246, 0.04)'
                   : '0 8px 32px rgba(0, 0, 0, 0.3)',
               }}
@@ -580,7 +580,7 @@ export default function ContactOverlay({ isOpen, onClose }: ContactOverlayProps)
                       }}
                       style={{
                         backgroundColor: '#050507',
-                        border: isDropdownOpen 
+                        border: isDropdownOpen
                           ? '1px solid rgba(139, 92, 246, 0.5)'
                           : '1px solid rgba(255, 255, 255, 0.08)',
                         boxShadow: isDropdownOpen
